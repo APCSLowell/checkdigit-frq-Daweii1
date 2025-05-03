@@ -1,62 +1,54 @@
 public class CheckDigit 
 {   
   /** Returns the check digit for num, as described in part (a).  
-   *  Precondition: The number of digits in num is between one and    
+   *  Precondition: The number of digits in num is between one and    
    *  six, inclusive.  
-   *          num >= 0  
+   *  num >= 0  
    */  
-   public static int getCheck(int num) 
-   {  
-     /* to be implemented in part (a) */
-     int finalNum = 0;
+  public static int getCheck(int num) 
+  {  
+    int sum = 0;
+    int numDigits = getNumberOfDigits(num);
+    
+    for (int i = 1; i <= numDigits; i++) {
+      int digit = getDigit(num, i);
+      int weight = 8 - i; // weights go 7, 6, 5, ...
+      sum += digit * weight;
+    }
 
-     for(int i =0; i<getNumberofDigits(num); i++) {
-        for(int j = 7; j> 7-getNumberofDigits(num); i++) {
-          finalNum = finalNum + getDigit(num,i);
-        }
+    return sum % 10;
+  }
 
-     }
-     return finalNum%10;
-   }
- 
-  /** Returns true if numWithCheckDigit is valid, or false    
-   *  otherwise, as described in part (b). 
-   *  Precondition: The number of digits in numWithCheckDigit   
-   *  is between two and seven, inclusive.
-   *                numWithCheckDigit >= 0     
+  /** Returns true if numWithCheckDigit is valid, or false otherwise.  
+   *  Precondition: The number of digits in numWithCheckDigit is between two and seven, inclusive.
+   *  numWithCheckDigit >= 0     
    */     
-   public static boolean isValid(int numWithCheckDigit)    
-   {      
-     /* to be implemented in part (b) */    
-     int a = numWithCheckDigit%10;
-     int b = numWithCheckDigit/10;
-     int c = getCheck(num);
+  public static boolean isValid(int numWithCheckDigit)    
+  {      
+    int checkDigit = numWithCheckDigit % 10;
+    int originalNum = numWithCheckDigit / 10;
 
-     if(a == c)
-       return true;
-     else
-       return false;
-   }    
+    return getCheck(originalNum) == checkDigit;
+  }    
    
-   /** Returns the number of digits in num. */    
-   public static int getNumberOfDigits(int num)    
-   {      
-    if(num < 10)
+  /** Returns the number of digits in num. */    
+  public static int getNumberOfDigits(int num)    
+  {      
+    if (num < 10)
       return 1;
-    return 1 + getNumberOfDigits(num/10);    
-   }    
+    return 1 + getNumberOfDigits(num / 10);    
+  }    
    
-   /** Returns the nthdigit of num.      
-    *  Precondition: n >= 1 and n <= the number of digits in num     
-    */    
-    public static int getDigit(int num, int n)    
-    {      
-      int pos = getNumberOfDigits(num)-n+1;
-      while(pos > 1){
-        num/=10;
-        pos--;
-      }
-      return num%10;
-    }     
-
+  /** Returns the nth digit of num.      
+   *  Precondition: n >= 1 and n <= the number of digits in num     
+   */    
+  public static int getDigit(int num, int n)    
+  {      
+    int pos = getNumberOfDigits(num) - n;
+    while (pos > 0) {
+      num /= 10;
+      pos--;
+    }
+    return num % 10;
+  }     
 }
